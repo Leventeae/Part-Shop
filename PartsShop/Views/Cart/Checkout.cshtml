@@ -1,0 +1,46 @@
+﻿@model PartsShop.Models.Order
+
+<h1>Checkout</h1>
+
+<form method="post" asp-action="SubmitOrder">
+    <div class="form-group">
+        <label for="ShippingAddress">Shipping Address</label>
+        <textarea id="ShippingAddress" name="ShippingAddress" class="form-control" required></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="PaymentMethod">Payment Method</label>
+        <select id="PaymentMethod" name="PaymentMethod" class="form-control" required>
+            <option value="Credit Card">Credit Card</option>
+            <option value="PayPal">PayPal</option>
+            <option value="Cash on Delivery">Cash on Delivery</option>
+        </select>
+    </div>
+
+    <h3>Order Summary</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Part Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderItems)
+            {
+                <tr>
+                    <td>@item.Part.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>$@item.Price</td>
+                    <td>$@Math.Round(item.Quantity * item.Price, 2)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4>Total: $@Math.Round(Model.TotalAmount, 2)</h4>
+
+    <button type="submit" class="btn btn-primary">Submit Order</button>
+</form>

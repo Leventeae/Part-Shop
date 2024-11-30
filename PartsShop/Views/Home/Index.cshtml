@@ -1,0 +1,179 @@
+﻿@{
+    ViewData["Title"] = "PartsShop - Home";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to PartsShop</h1>
+    <p>Your one-stop shop for high-quality car parts. Explore our wide selection of parts and find what you need to keep your vehicle running smoothly.</p>
+    <a href="@Url.Action("Index", "Parts")" class="btn btn-primary btn-lg">Browse Parts</a>
+</div>
+
+<!-- Search Section -->
+<section class="mt-4">
+    <div class="container text-center">
+        <h2>Find Your Car Parts</h2>
+        <form action="@Url.Action("Index", "Parts")" method="get" class="d-flex justify-content-center">
+            <div class="input-group w-50">
+                <input type="text" name="searchQuery" class="form-control" placeholder="Search for parts..." value="@ViewData["SearchQuery"]">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Customer Testimonials Section -->
+<section class="testimonials-section py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">What Our Customers Say</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="testimonial-card p-4 shadow-sm border rounded">
+                    <p class="testimonial-text">"Great experience! I found the part I needed quickly, and it arrived on time."</p>
+                    <p class="text-right"><strong>- John D.</strong></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card p-4 shadow-sm border rounded">
+                    <p class="testimonial-text">"The prices are unbeatable, and the quality is top-notch. I will definitely shop here again!"</p>
+                    <p class="text-right"><strong>- Sarah M.</strong></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card p-4 shadow-sm border rounded">
+                    <p class="testimonial-text">"Fast and reliable service. I was able to find everything I needed for my car. 5 stars!"</p>
+                    <p class="text-right"><strong>- Tom K.</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    * {
+        transition: all 0.3s ease;
+    }
+
+    a.navbar-brand {
+        white-space: normal;
+        text-align: center;
+        word-break: break-all;
+    }
+
+    a {
+        color: #0077cc;
+    }
+
+    .btn-primary {
+        color: #fff;
+        background-color: #1b6ec2;
+        border-color: #1861ac;
+    }
+
+    .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+        color: #fff;
+        background-color: #1b6ec2;
+        border-color: #1861ac;
+    }
+
+    .border-top {
+        border-top: 1px solid #e5e5e5;
+    }
+
+    .border-bottom {
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .box-shadow {
+        box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    }
+
+    button.accept-policy {
+        font-size: 1rem;
+        line-height: inherit;
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        white-space: nowrap;
+        line-height: 60px;
+    }
+
+    section {
+        background-color: white;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+        transition: all 0.3s ease;
+    }
+
+    /* Button Hover Effect */
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+        transform: scale(1.1);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Card Hover Effect */
+    .testimonial-card {
+        background-color: #ffffff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .testimonial-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Image Hover Effect */
+    .card-img-top {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .card:hover .card-img-top {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+
+    /* Navbar Hover Effect */
+    .navbar .nav-link {
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .navbar .nav-link:hover {
+        color: #f8f9fa;
+        transform: translateX(5px);
+    }
+
+    /* Footer Hover Effect */
+    footer .social-icon {
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    footer .social-icon:hover {
+        color: #f8f9fa;
+        transform: rotate(15deg);
+    }
+
+    /* Section Link Hover Effect */
+    .testimonial-text {
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .testimonial-text:hover {
+        color: #007bff;
+        transform: scale(1.05);
+    }
+</style>
