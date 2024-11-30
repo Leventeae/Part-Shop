@@ -1,0 +1,39 @@
+@"
+# Ignore Visual Studio files
+.vs/
+.vscode/
+.idea/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]Release/
+[Rr]eleasePublic/
+x64/
+x86/
+ARM/
+aarch64/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Logs
+*.log
+
+# .NET Core and ASP.NET Core build folders
+bin/
+obj/
+
+# DotCover
+.idea/
+*.dotCover
+"@ | Out-File -Append -FilePath .gitignore
