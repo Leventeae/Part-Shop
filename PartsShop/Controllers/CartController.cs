@@ -21,7 +21,7 @@ namespace PartsShop.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToCart(int partId, int quantity)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get UserId from claims
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var part = await _context.Parts.FindAsync(partId);
 
             if (part == null)
@@ -59,14 +59,14 @@ namespace PartsShop.Controllers
         // View Cart
         public async Task<IActionResult> Index()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get UserId from claims
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var cartItems = await _context.CartItems
                                            .Where(ci => ci.UserId == userId)
-                                           .Include(ci => ci.Part) // Include part details
+                                           .Include(ci => ci.Part)
                                            .ToListAsync();
 
-            var totalAmount = cartItems.Sum(ci => ci.Part.Price * ci.Quantity); // Sum of price * quantity for each item
+            var totalAmount = cartItems.Sum(ci => ci.Part.Price * ci.Quantity);
 
             var cartViewModel = new CartViewModel
             {
@@ -93,7 +93,6 @@ namespace PartsShop.Controllers
 
         public IActionResult Checkout()
         {
-            // Get the current user's cart items
             var cartItems = _context.CartItems.Include(c => c.Part).ToList();
             var totalAmount = cartItems.Sum(c => c.Quantity * c.Part.Price);
 
@@ -117,14 +116,12 @@ namespace PartsShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Save the order to the database
                 order.OrderDate = DateTime.Now;
-                order.UserId = User.Identity.Name; // Optionally set the User ID
+                order.UserId = User.Identity.Name;
 
                 _context.Orders.Add(order);
                 _context.SaveChanges();
 
-                // Optionally, clear the cart after order submission
                 var cartItems = _context.CartItems.Where(c => c.UserId == order.UserId).ToList();
                 _context.CartItems.RemoveRange(cartItems);
                 _context.SaveChanges();
@@ -132,7 +129,6 @@ namespace PartsShop.Controllers
                 return RedirectToAction("OrderConfirmation", new { orderId = order.Id });
             }
 
-            // If model is invalid, return back to checkout
             return View("Checkout", order);
         }
 
@@ -143,7 +139,7 @@ namespace PartsShop.Controllers
                 .ThenInclude(oi => oi.Part)
                 .FirstOrDefault(o => o.Id == orderId);
 
-            return View(order); // You can create a simple confirmation page
+            return View(order);
         }
     }
 }

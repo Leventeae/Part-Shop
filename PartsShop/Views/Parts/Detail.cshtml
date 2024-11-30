@@ -31,28 +31,25 @@
     </div>
 </div>
 
-<!-- Include Lightbox CSS and JS -->
 <link href="https://cdn.jsdelivr.net/npm/ekko-lightbox/dist/ekko-lightbox.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
 
-<!-- Custom Styles -->
 <style>
-    /* Image Box Styling with Smooth Hover */
+
     .part-image-card {
         background-color: #ffffff;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
         overflow: hidden;
         width: 100%;
-        transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth transition */
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
     }
 
-        .part-image-card:hover {
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
-            transform: translateY(-5px); /* Slight vertical lift */
-        }
+    .part-image-card:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        transform: translateY(-5px);
+    }
 
-    /* Button Hover with Smoother Transition */
     .btn-primary {
         background-color: #007bff;
         border-color: #007bff;
@@ -60,46 +57,42 @@
         font-size: 1rem;
         color: #ffffff;
         border-radius: 5px;
-        transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+        transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004085;
-            transform: scale(1.05); /* Slight zoom effect */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
-        }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
 
-    /* Lightbox Smooth Open Animation */
     .ekko-lightbox .modal-content {
-        transition: all 0.3s ease-out; /* Smooth modal content transition */
+        transition: all 0.3s ease-out;
     }
 
-    /* Navbar Hover Effect */
     .navbar .nav-link {
         transition: color 0.3s ease, transform 0.3s ease;
     }
 
-        .navbar .nav-link:hover {
-            color: #f8f9fa;
-            transform: translateX(5px);
-        }
+    .navbar .nav-link:hover {
+        color: #f8f9fa;
+        transform: translateX(5px);
+    }
 
-    /* Footer Hover Effect */
     footer .social-icon {
         transition: transform 0.3s ease, color 0.3s ease;
     }
 
-        footer .social-icon:hover {
-            color: #f8f9fa;
-            transform: rotate(15deg);
-        }
+    footer .social-icon:hover {
+        color: #f8f9fa;
+        transform: rotate(15deg);
+    }
 </style>
 
-<!-- Lightbox Initialization Script -->
+<!-- Lightbox -->
 <script>
     $(document).ready(function () {
-        // Initialize the lightbox
         $('a[data-toggle="lightbox"]').on('click', function (e) {
             e.preventDefault();
             $(this).ekkoLightbox();

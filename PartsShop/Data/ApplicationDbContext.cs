@@ -20,7 +20,6 @@ namespace PartsShop.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Ensure Price is configured as decimal with proper precision and scale
             modelBuilder.Entity<Part>()
                 .Property(p => p.Price)
                 .HasColumnType("decimal(18,2)");
