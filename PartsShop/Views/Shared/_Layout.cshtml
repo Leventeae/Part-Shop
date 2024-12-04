@@ -30,6 +30,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Parts" asp-action="Index">Parts</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("OrderHistory", "Cart")">Order History</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("Index", "Cart")">
                                 <i class="fas fa-shopping-cart"></i> Cart
                                 <span class="badge badge-pill badge-primary">@ViewBag.CartItemCount</span>

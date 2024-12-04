@@ -93,10 +93,12 @@ body {
 }
 
 .navbar .nav-link {
+    color: black;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .navbar .nav-link:hover {
+    color: black;
     transform: translateX(5px);
 }
 

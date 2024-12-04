@@ -13,6 +13,7 @@ namespace PartsShop.Models
         public string PaymentMethod { get; set; }
         public decimal TotalAmount { get; set; }
         public List<OrderItem> OrderItems { get; set; }
+        public string Status { get; set; }
     }
 
     public class OrderItem
@@ -22,5 +23,10 @@ namespace PartsShop.Models
         public Part Part { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
+    }
+
+    public class OrderHistoryViewModel
+    {
+        public List<Order> Orders { get; set; }
     }
 }

@@ -154,7 +154,8 @@ namespace PartsShop.Controllers
                     Price = ci.Part.Price
                 }).ToList(),
                 TotalAmount = cartItems.Sum(ci => ci.Quantity * ci.Part.Price),
-                OrderDate = DateTime.Now
+                OrderDate = DateTime.Now,
+                Status = "Processing"
             };
 
             _context.Orders.Add(newOrder);
@@ -178,6 +179,43 @@ namespace PartsShop.Controllers
             {
                 TempData["Error"] = "Order not found.";
                 return RedirectToAction("Index", "Home");
+            }
+
+            return View(order);
+        }
+
+        public async Task<IActionResult> OrderHistory()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var orders = await _context.Orders
+                .Where(o => o.UserId == userId)
+                .Include(o => o.OrderItems)
+                .ToListAsync();
+
+            var model = new OrderHistoryViewModel
+            {
+                Orders = orders
+            };
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> OrderDetails(int id)
+        {
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Part)
+                .FirstOrDefaultAsync(o => o.Id == id);
+
+            if (order == null)
+            {
+                return NotFound();
             }
 
             return View(order);

@@ -1,0 +1,36 @@
+﻿@model OrderHistoryViewModel
+
+@{
+    ViewData["Title"] = "Order History";
+}
+
+<h2>Order History</h2>
+
+@if (Model.Orders != null && Model.Orders.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order Date</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
+            {
+                <tr>
+                    <td>@order.OrderDate.ToString("MM/dd/yyyy")</td>
+                    <td>@order.TotalAmount.ToString("C")</td>
+                    <td>@order.Status</td>
+                    <td><a href="@Url.Action("OrderDetails", "Cart", new { id = order.Id })">View Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No orders found.</p>
+}
