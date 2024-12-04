@@ -28,6 +28,8 @@
     </table>
 
     <h4>Total: $@Math.Round(Model.TotalAmount, 2)</h4>
+    <h4><a href="@Url.Action("Checkout", "Cart")" class="btn btn-primary">Proceed to Checkout</a></h4>
+    <br />
 }
 else
 {
@@ -47,3 +49,11 @@ else
         @TempData["Error"]
     </div>
 }
+
+<style>
+    .h4 {
+        text-align: center;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+</style>

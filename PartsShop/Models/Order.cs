@@ -1,11 +1,15 @@
-﻿namespace PartsShop.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PartsShop.Models
 {
     public class Order
     {
         public int Id { get; set; }
         public string UserId { get; set; }
         public DateTime OrderDate { get; set; }
+        [Required(ErrorMessage = "Shipping address is required.")]
         public string ShippingAddress { get; set; }
+        [Required(ErrorMessage = "Payment method is required.")]
         public string PaymentMethod { get; set; }
         public decimal TotalAmount { get; set; }
         public List<OrderItem> OrderItems { get; set; }

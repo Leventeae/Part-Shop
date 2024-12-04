@@ -24,6 +24,11 @@ namespace PartsShop.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var part = await _context.Parts.FindAsync(partId);
 
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Redirect("https://localhost:7022/Identity/Account/Login"); // Replace redirection if in production
+            }
+
             if (part == null)
             {
                 TempData["Error"] = "Part not found!";
@@ -93,51 +98,87 @@ namespace PartsShop.Controllers
 
         public IActionResult Checkout()
         {
-            var cartItems = _context.CartItems.Include(c => c.Part).ToList();
-            var totalAmount = cartItems.Sum(c => c.Quantity * c.Part.Price);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var cartItems = _context.CartItems
+                .Where(ci => ci.UserId == userId && ci.Quantity > 0)
+                .Include(ci => ci.Part)
+                .ToList();
 
             var model = new Order
             {
-                OrderItems = cartItems.Select(item => new OrderItem
-                {
-                    PartId = item.PartId,
-                    Part = item.Part,
-                    Quantity = item.Quantity,
-                    Price = (decimal)item.Part.Price
-                }).ToList(),
-                TotalAmount = (decimal)totalAmount
+                OrderItems = new List<OrderItem>(),
+                TotalAmount = 0
             };
+
+            foreach (var cartItem in cartItems)
+            {
+                model.OrderItems.Add(new OrderItem
+                {
+                    PartId = cartItem.PartId,
+                    Part = cartItem.Part,
+                    Quantity = cartItem.Quantity,
+                    Price = cartItem.Part.Price
+                });
+            }
+
+            model.TotalAmount = model.OrderItems.Sum(oi => oi.Quantity * oi.Price);
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult SubmitOrder(Order order)
+        public async Task<IActionResult> SubmitOrder(Order model)
         {
-            if (ModelState.IsValid)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var cartItems = await _context.CartItems
+                .Where(ci => ci.UserId == userId)
+                .Include(ci => ci.Part)
+                .ToListAsync();
+
+            if (cartItems == null || cartItems.Count == 0)
             {
-                order.OrderDate = DateTime.Now;
-                order.UserId = User.Identity.Name;
-
-                _context.Orders.Add(order);
-                _context.SaveChanges();
-
-                var cartItems = _context.CartItems.Where(c => c.UserId == order.UserId).ToList();
-                _context.CartItems.RemoveRange(cartItems);
-                _context.SaveChanges();
-
-                return RedirectToAction("OrderConfirmation", new { orderId = order.Id });
+                TempData["Error"] = "Your cart is empty or contains no valid items.";
+                return RedirectToAction("Index", "Cart");
             }
 
-            return View("Checkout", order);
+            var newOrder = new Order
+            {
+                UserId = userId,
+                ShippingAddress = model.ShippingAddress,
+                PaymentMethod = model.PaymentMethod,
+                OrderItems = cartItems.Select(ci => new OrderItem
+                {
+                    PartId = ci.PartId,
+                    Quantity = ci.Quantity,
+                    Price = ci.Part.Price
+                }).ToList(),
+                TotalAmount = cartItems.Sum(ci => ci.Quantity * ci.Part.Price),
+                OrderDate = DateTime.Now
+            };
+
+            _context.Orders.Add(newOrder);
+            await _context.SaveChangesAsync();
+
+            _context.CartItems.RemoveRange(cartItems);
+            await _context.SaveChangesAsync();
+
+            TempData["Message"] = "Your order has been successfully submitted!";
+            return RedirectToAction("OrderConfirmation", new { orderId = newOrder.Id });
         }
 
-        public IActionResult OrderConfirmation(int orderId)
+        public async Task<IActionResult> OrderConfirmation(int orderId)
         {
-            var order = _context.Orders
+            var order = await _context.Orders
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Part)
-                .FirstOrDefault(o => o.Id == orderId);
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null)
+            {
+                TempData["Error"] = "Order not found.";
+                return RedirectToAction("Index", "Home");
+            }
 
             return View(order);
         }
