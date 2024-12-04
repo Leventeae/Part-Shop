@@ -30,7 +30,6 @@ aarch64/
 *.log
 
 # .NET Core and ASP.NET Core build folders
-bin/
 obj/
 
 # DotCover
