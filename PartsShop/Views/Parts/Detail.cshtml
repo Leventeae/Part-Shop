@@ -29,6 +29,7 @@
             <a href="@Url.Action("Index", "Parts")" class="btn btn-primary btn-lg">Back to Parts List</a>
         </div>
     </div>
+    <p><strong id="visitor-count"></strong> people are currently viewing this page.</p>
 </div>
 
 <link href="https://cdn.jsdelivr.net/npm/ekko-lightbox/dist/ekko-lightbox.min.css" rel="stylesheet">
@@ -88,10 +89,20 @@
         color: #f8f9fa;
         transform: rotate(15deg);
     }
+
+    #visitor-count {
+        padding-top: 10px;
+    }
 </style>
 
 <!-- Lightbox -->
 <script>
+    const minVisitors = 3;
+    const maxVisitors = 50;
+
+    const visitorCount = Math.floor(Math.random() * (maxVisitors - minVisitors + 1) + minVisitors);
+    document.getElementById("visitor-count").textContent = visitorCount;
+
     $(document).ready(function () {
         $('a[data-toggle="lightbox"]').on('click', function (e) {
             e.preventDefault();

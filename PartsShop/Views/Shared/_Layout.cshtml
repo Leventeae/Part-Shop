@@ -30,6 +30,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Parts" asp-action="Index">Parts</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="FAQ">FAQ</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("OrderHistory", "Cart")">Order History</a>
                         </li>
                         <li class="nav-item">
@@ -50,6 +53,17 @@
         </main>
     </div>
 
+    <!-- Chatbox UI -->
+    <div id="chat-container" style="position: fixed; bottom: 20px; right: 20px; width: 300px;">
+        <div id="chat-header" style="background: #007bff; color: white; padding: 10px; cursor: pointer;">
+            💬 Chat with us!
+        </div>
+        <div id="chat-body" style="display: none; border: 1px solid #ccc; background: white; height: 250px; overflow-y: scroll;">
+            <div id="chat-messages" style="padding: 10px;"></div>
+            <input id="chat-input" type="text" placeholder="Type a message..." style="width: 100%; border: none; border-top: 1px solid #ccc; padding: 5px;">
+        </div>
+    </div>
+
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2024 - PartsShop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -64,3 +78,53 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<script>
+    document.getElementById("chat-header").onclick = function () {
+        var chatBody = document.getElementById("chat-body");
+        chatBody.style.display = (chatBody.style.display === "none") ? "block" : "none";
+    };
+
+    const fakeResponses = [
+        "Hello! How can I assist you today?",
+        "Our parts are compatible with most vehicles. Do you have a specific model in mind?",
+        "Hello! What seems to be the problem?",
+        "Hi! How can I help you?",
+        "I'll transfer you to a specialist shortly. 😊",
+        "We are busy at the moment, please be patient.",
+        "I'm happy to help! Could you clarify what part you're looking for?",
+        "We offer a hassle-free return policy for all unused parts. Let me know if you'd like more details.",
+        "Our team is constantly updating inventory. If a part isn’t available, check back in a day or two!",
+        "All our products come with a 1-year warranty. Let me know if you'd like more details.",
+        "For returning customers, we offer loyalty points that you can use for discounts on future purchases.",
+        "Thank you for your patience. 😊 I'm just pulling up the information you need.",
+        "Did you know? We’ve been serving car enthusiasts for over 10 years!",
+        "Tip: Always double-check your vehicle’s manual for compatible parts. 😊",
+        "We’re constantly adding new parts to our inventory. What’s your favorite car brand?"
+    ];
+
+    document.getElementById("chat-input").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+            let inputField = document.getElementById("chat-input");
+            let userMessage = inputField.value;
+
+            if (userMessage.trim() !== "") {
+                addMessage("You", userMessage);
+                inputField.value = "";
+
+                setTimeout(() => {
+                    let randomResponse = fakeResponses[Math.floor(Math.random() * fakeResponses.length)];
+                    addMessage("Agent", randomResponse);
+                }, 2000);
+            }
+        }
+    });
+
+    function addMessage(sender, message) {
+        let messageContainer = document.getElementById("chat-messages");
+        messageContainer.innerHTML += `
+            <div><strong>${sender}:</strong> ${message}</div>
+        `;
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+    }
+</script>
